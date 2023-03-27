@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Task 2</title>
+</head>
+
+<body>
+	<script>
+		//Розробити функцію, у яку передають об’єкт (день, місяць, рік). Визначити, який буде рік через N місяців.
+		//отримуємо дату
+		const date = new Date()
+		const year = date.getFullYear()
+		const day = date.getDate()
+		const month = date.getMonth() + 1
+		//передаємо дані у об'єкт
+		/*let dateObj = {
+			day,
+			month,
+			year
+		}*/
+		//або функція для створення об'єкту з датами
+		function makeDateObj(userDate,userMonth,userYear){
+			let obj = {}
+			obj.date = userDate
+			obj.month = userMonth
+			obj.year = userYear
+			return obj
+		}
+		let dateObj = makeDateObj(day,month,year)
+		//виводимо поточну дату
+		document.write(`<p><span>Поточна дата</span></p>`)
+		for(const key in dateObj){
+			document.write(`<p>${key} : <span>${dateObj[key]}</p>`)
+		}
+		//функція для визначення року через N місяців
+		const userNumberMoth = parseInt(prompt('Введіть кількість місяців'))
+		function getShiftedYear(userDate,number) {
+			userDate.month+=number
+			if (userDate.month > 12) {
+				userDate.year += Math.floor(userDate.month / 12);
+				userDate.month = userDate.month % 12;
+			}
+			return userDate.year
+		}
+		let getYear_N = getShiftedYear(dateObj, userNumberMoth)
+		document.write(`<p><span>${getYear_N}</span> рік через <span>${userNumberMoth}</span> місяців.</p>`)
+	</script>
+</body>
+</html>

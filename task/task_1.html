@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Task 1</title>
+</head>
+
+<body>
+	<script>
+	// Описати масив об’єктів – сайтів розроблених компанією з такими властивостями
+	//----- Властивості ------
+   // -	назва компанії на час розробки (назву періодично змінюють)
+   //-	власник компанії
+   //-	споснсори (масив спонсорів)
+   //  * прізвище спонсора
+   //  * ім’я  спонсора
+   //  * сума вкладень спонсора
+   //-	рік випуску
+   //-	вартість сайту
+   //Знайти:
+   //1) загальну вартість усіх сайтів
+   //2) кількість сайтів, що було зроблено між 2000 та 2009 рр.
+   //3) кількість сайтів, де сума спонсорських вкладень була більшою за 100000
+   //4) створити загальний список усіх спонсорів (поки можуть повторюватись, просто зібрати усі у масив)
+   //5) знайти рік, коли прибуток був найбільшим
+   //6) упорядкувати список за спаданням прибутку
+   //7) Створити 2 окремих списки з копіями об’єктів, що містять сайти з вартість до 10000 і більше 10000
+	//----------------------------------------------------------------------------------------------------
+	//позначення величин
+	let companyWebList = [
+		{
+			name: 'Rozetka',
+			owner: 'Oleg',
+			sponsors: ['Puzdryak', 'Oleksandr', '120000'],
+			year: 2010,
+			price: 12000
+		},
+		{
+			name: 'OLX',
+			owner: 'Pavlo',
+			sponsors: ['Palahniuk', 'Yuriy', '100000'],
+			year: 2012,
+			price: 15000
+		},
+		{
+			name: 'Yakaboo',
+			owner: 'Ivan',
+			sponsors: ['Leoshko', 'Volodymyr', '90000'],
+			year: 2008,
+			price: 9000
+		},
+		{
+			name: 'Prom',
+			owner: 'John',
+			sponsors: ['Cosh', 'Ilon', '200000'],
+			year: 2015,
+			price: 7000
+		},
+		{
+			name: 'AutoRia',
+			owner: 'Kolya',
+			sponsors: ['Grog', 'Edvard', '150000'],
+			year: 2007,
+			price: 8000
+		}
+	]
+	console.log(companyWebList)
+	//1) загальну вартість усіх сайтів
+	const totalPrice = companyWebList.reduce(
+		(prevSum,site) => prevSum + site.price
+	,0)
+	document.write(`<p>Загальна вартість всіх сайтів: <span>${totalPrice}</span>.</p>`)
+	//2) кількість сайтів, що було зроблено між 2000 та 2009 рр.
+	let numberSite = 0
+	for(const site of companyWebList){
+		if(site.year > 2000 && site.year < 2009) numberSite++
+	}
+	document.write(`<p>Кількість сайтів, що було зроблено між 2000 та 2009 рр.: <span>${numberSite}</span>.</p>`)
+	//3) кількість сайтів, де сума спонсорських вкладень була більшою за 100000
+	const siteAttachmentMore_100000 = companyWebList.reduce(
+		(prevCount,site) => (site.sponsors[2] > 100000) ? prevCount+1 : prevCount,0)
+	document.write(`<p>Кількість сайтів, де сума спонсорських вкладень була більшою за 100000: <span>${siteAttachmentMore_100000}</span>.</p>`)
+	//4) створити загальний список усіх спонсорів (поки можуть повторюватись, просто зібрати усі у масив)
+	const sponsorsArray = []
+	for(const site of companyWebList){
+		sponsorsArray.push(site.sponsors[0])
+	}
+	document.write(`<p>Загальний список усіх спонсорів: <span>${sponsorsArray}</span>.</p>`)
+	//5) знайти рік, коли прибуток був найбільшим
+	const biggestPriceSiteYear = companyWebList.reduce((prevSite, site) => site.price > prevSite.price ? site : prevSite)
+	document.write(`<p>Рік, коли прибуток був найбільшим: <span>${biggestPriceSiteYear.year}</span>.</p>`)
+	//6) упорядкувати список за спаданням прибутку
+	let maxPriceSite = companyWebList.map((site) => site.price)
+	console.log(maxPriceSite)
+	const preLastIndex = companyWebList.length - 1
+	for(let i = 0; i < preLastIndex; i++){
+		let currentMaxIndex = i
+		for(let j = i + 1; j < maxPriceSite.length; j++){
+			if(maxPriceSite[j] > maxPriceSite[currentMaxIndex]) currentMaxIndex = j
+		}
+		if(i !== currentMaxIndex){
+			let tmp = maxPriceSite[i]
+			maxPriceSite[i] = maxPriceSite[currentMaxIndex]
+			maxPriceSite[currentMaxIndex] = tmp
+		tmp = companyWebList[i]
+		companyWebList[i] = companyWebList[currentMaxIndex]
+		companyWebList[currentMaxIndex] = tmp
+		}
+	}
+	console.log(maxPriceSite)
+	console.log(companyWebList)
+	//7) Створити 2 окремих списки з копіями об’єктів, що містять сайти з вартість до 10000 і більше 10000
+	let siteObjMore_10000 = []
+	for(let i = 0; i < companyWebList.length; i++){
+		if(companyWebList[i].price > 10000) siteObjMore_10000.push(companyWebList[i])
+	}
+	console.log(siteObjMore_10000)
+	let siteObjLess_10000 = []
+	for(let i = 0; i < companyWebList.length; i++){
+		if(companyWebList[i].price < 10000) siteObjLess_10000.push(companyWebList[i])
+	}
+	console.log(siteObjLess_10000)
+	</script>
+</body>
+</html>
